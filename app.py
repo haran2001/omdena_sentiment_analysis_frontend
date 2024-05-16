@@ -12,8 +12,7 @@ from langchain.embeddings import SentenceTransformerEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.llms import HuggingFacePipeline
 from langchain.chains import RetrievalQA
-fro
-m langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import PyPDFLoader
 import requests, json, sys
 
 
