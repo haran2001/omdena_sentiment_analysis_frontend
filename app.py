@@ -1,3 +1,32 @@
+import streamlit as st
+import os
+import base64
+import time
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import pipeline
+import torch
+import textwrap
+from langchain.document_loaders import PyPDFLoader, DirectoryLoader, PDFMinerLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.embeddings import SentenceTransformerEmbeddings
+from langchain.vectorstores import Chroma
+from langchain.llms import HuggingFacePipeline
+from langchain.chains import RetrievalQA
+fro
+m langchain.document_loaders import PyPDFLoader
+import requests, json, sys
+
+
+import shutil
+from transformers import BertForSequenceClassification, BertTokenizer
+
+from huggingface_hub import login, logout
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+
+from accelerate import init_empty_weights
+from transformers import BertConfig, BertModel
+
 hide_github_icon = """
 #GithubIcon {
   visibility: hidden;
@@ -17,34 +46,6 @@ st.markdown(
 )
 
 st.markdown(hide_github_icon, unsafe_allow_html=True)
-
-import streamlit as st
-import os
-import base64
-import time
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from transformers import pipeline
-import torch
-import textwrap
-from langchain.document_loaders import PyPDFLoader, DirectoryLoader, PDFMinerLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import SentenceTransformerEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.llms import HuggingFacePipeline
-from langchain.chains import RetrievalQA
-from langchain.document_loaders import PyPDFLoader
-import requests, json, sys
-
-
-import shutil
-from transformers import BertForSequenceClassification, BertTokenizer
-
-from huggingface_hub import login, logout
-from transformers import AutoTokenizer, AutoModelForCausalLM
-
-
-from accelerate import init_empty_weights
-from transformers import BertConfig, BertModel
 
 st.set_page_config(layout="wide")
 
