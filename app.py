@@ -26,8 +26,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from accelerate import init_empty_weights
 from transformers import BertConfig, BertModel
 
-st.markdown(hide_github_icon, unsafe_allow_html=True)
-
 st.set_page_config(layout="wide")
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
