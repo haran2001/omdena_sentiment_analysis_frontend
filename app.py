@@ -50,7 +50,7 @@ st.markdown(
 
 # Your app code goes here
 
-# st.markdown(hide_github_icon, unsafe_allow_html=True)
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 
 
 def add_logo():
