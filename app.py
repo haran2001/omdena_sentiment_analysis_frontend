@@ -71,6 +71,7 @@ def predict(model, tokenizer, text, threshold=0.5):
     return bool(predicted_class), probabilities
 
 
+@st.cache_resource
 def llm_pipeline():
     checkpoint = "MBZUAI/LaMini-T5-223M"
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
@@ -100,6 +101,7 @@ def main():
     state = False
     add_logo()
     llm = llm_pipeline()
+    sa_bert_model, sa_bert_tokenizer = load_model()
 
     st.markdown(
         "<h1 style='text-align: center; color:white;'>IREX-Sentiment-Analyzer</h1>",
@@ -133,12 +135,12 @@ def main():
         )
         user_input1 = st.text_input("", key="input1")
         if st.button("Classify SaBERT"):
-            sa_bert_model, sa_bert_tokenizer = load_model()
             predicted_label, probabilities = predict(
                 sa_bert_model, sa_bert_tokenizer, user_input1
             )
             st.write(predicted_label)
             st.write(probabilities)
+            st.write("Note: True is positive sentiment, False is negative sentiment")
 
 
 if __name__ == "__main__":
