@@ -20,11 +20,18 @@ import shutil
 from transformers import BertForSequenceClassification, BertTokenizer
 
 from huggingface_hub import login, logout
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import (
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    AutoConfig,
+    AutoModelForSequenceClassification,
+)
 
 
 from accelerate import init_empty_weights
 from transformers import BertConfig, BertModel
+from pysentimiento import create_analyzer
+
 
 st.set_page_config(layout="wide")
 
@@ -37,19 +44,15 @@ def add_logo():
 
 @st.cache_resource
 def load_model():
+    MODEL = f"VerificadoProfesional/SaBERT-Spanish-Sentiment-Analysis"
+    config = BertConfig.from_pretrained(MODEL)
+    model = BertForSequenceClassification.from_pretrained(MODEL)
+    tokenizer = BertTokenizer.from_pretrained(MODEL)
 
-    config = BertConfig.from_pretrained(
-        "VerificadoProfesional/SaBERT-Spanish-Sentiment-Analysis"
-    )
-    with init_empty_weights():
-        model = BertModel(config)
-
-    model = BertForSequenceClassification.from_pretrained(
-        "VerificadoProfesional/SaBERT-Spanish-Sentiment-Analysis"
-    )
-    tokenizer = BertTokenizer.from_pretrained(
-        "VerificadoProfesional/SaBERT-Spanish-Sentiment-Analysis"
-    )
+    # MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+    # tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    # config = AutoConfig.from_pretrained(MODEL)
+    # model = AutoModelForSequenceClassification.from_pretrained(MODEL)
 
     return model, tokenizer
 
@@ -101,7 +104,8 @@ def main():
     state = False
     add_logo()
     llm = llm_pipeline()
-    sa_bert_model, sa_bert_tokenizer = load_model()
+    # sa_bert_model, sa_bert_tokenizer = load_model()
+    analyzer = create_analyzer(task="sentiment", lang="es")
 
     st.markdown(
         "<h1 style='text-align: center; color:white;'>IREX-Sentiment-Analyzer</h1>",
@@ -130,17 +134,22 @@ def main():
 
     with col2:
         st.markdown(
-            "<h4 style color:black;'>SaBERT based sentiment analysis</h4>",
+            "<h4 style color:black;'>robertuito-sentiment-analysis</h4>",
             unsafe_allow_html=True,
         )
         user_input1 = st.text_input("", key="input1")
-        if st.button("Classify SaBERT"):
-            predicted_label, probabilities = predict(
-                sa_bert_model, sa_bert_tokenizer, user_input1
-            )
-            st.write(predicted_label)
-            st.write(probabilities)
-            st.write("Note: True is positive sentiment, False is negative sentiment")
+        if st.button("Classify RoBERTa"):
+            # predicted_label, probabilities = predict(
+            #     sa_bert_model, sa_bert_tokenizer, user_input1
+            # )
+            # st.write(predicted_label)
+            # st.write(probabilities)
+            # st.write("Note: True is positive sentiment, False is negative sentiment")
+
+            prediction = analyzer.predict("Qué gran jugador es Messi")
+            st.write(prediction.output)
+            st.write(prediction.probas)
+            st.write("Note: POS is positive, NEG is negative, NEU is neutral")
 
 
 if __name__ == "__main__":
