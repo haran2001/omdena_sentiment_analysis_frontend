@@ -30,6 +30,16 @@ st.set_page_config(layout="wide")
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+
+# Your app code goes here
+
+st.markdown(hide_github_icon, unsafe_allow_html=True)
+
 
 def add_logo():
     st.image("assets/images/Omdena.png", width=250)
